@@ -669,7 +669,7 @@
         }
         // Validate strong password
         function validatePassword(pass) {
-            return /^(?=.\d)(?=.[a-z])(?=.[A-Z])(?=.[\W]).{8,}$/.test(pass);
+         return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/.test(pass);
         }
 
         // Handle Sign Up
@@ -734,5 +734,6 @@
         }
     </script>
 </body>
+
 
 </html>
