@@ -15,13 +15,13 @@
         }
 
         body {
-            background: linear-gradient(135deg, #43867e 0%, #282164 50%, #09667b 100%);
+            background: linear-gradient(135deg, #264e49 0%, #282164 50%, #09667b 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             padding: 20px;
-            overflow: hidden;
+            overflow-x: hidden;  /* Prevent horizontal scrolling */
             position: relative;
         }
 
@@ -135,7 +135,8 @@
 
         .container {
             display: flex;
-            width: 900px;
+            width: 100%;
+            max-width: 900px; /* Use max-width instead of fixed width */
             height: auto;
             background: #fff;
             border-radius: 20px;
@@ -155,7 +156,8 @@
         }
 
         .form-section {
-            width: 50%;
+            flex: 1 1 0;
+            min-width: 0; /* Important to prevent overflow in flex */
             padding: 40px;
             display: flex;
             flex-direction: column;
@@ -188,22 +190,18 @@
         }
 
         .image-section {
-            width: 50%;
+            flex: 1 1 0;
+            min-width: 0; /* Important to prevent overflow in flex */
             background: linear-gradient(135deg, rgba(0, 176, 155, 0.85) 0%, rgba(0, 212, 255, 0.85) 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: rgb(12, 7, 7);
+            color: white;
             padding: 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-
-        .font1 {
-            font-size: medium;
-            color: hsl(111, 38%, 15%);
         }
 
         .image-section::after {
@@ -313,6 +311,17 @@
             transform: translateY(-50%);
             color: #777;
             transition: color 0.3s;
+            z-index: 2;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            cursor: pointer;
+            z-index: 2;
         }
 
         input:focus+.input-icon {
@@ -426,6 +435,7 @@
             color: #333;
             width: 100%;
             animation: successFadeIn 1s ease forwards;
+            z-index: 2;
         }
 
         @keyframes successFadeIn {
@@ -488,68 +498,131 @@
             }
         }
 
-        @media(max-width:768px) {
+        /* Enhanced mobile responsiveness */
+        @media (max-width: 768px) {
             .container {
                 flex-direction: column;
-                width: 100%;
-                max-width: 500px;
-                max-height: 100vh;
-                /* Limit container height */
-                overflow-y: auto;
-                /* Enable vertical scrolling */
-                -webkit-overflow-scrolling: touch;
-                /* Smooth scrolling on iOS */
+                width: calc(100% - 40px); /* Account for body padding */
+                max-width: 100%;
+                max-height: 85vh; /* Limit height for mobile */
+                overflow-y: auto; /* Enable vertical scrolling */
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
             }
 
             .form-section,
             .image-section {
                 width: 100%;
-                padding: 30px;
+                min-width: 100%;
+                flex: none; /* Reset flex for mobile */
+                padding: 25px;
             }
 
             .image-section {
                 order: -1;
-                min-height: 250px;
-                /* Ensure consistent height */
+                min-height: 220px; /* Consistent height for image section */
             }
 
             .form-section {
-                min-height: auto;
-                /* Allow form section to expand */
+                min-height: auto; /* Allow form section to expand */
             }
 
             .bg-bubbles li {
-                width: 20px;
-                height: 20px;
+                width: 30px;
+                height: 30px;
             }
 
             .bg-bubbles li:nth-child(1) {
-                width: 40px;
-                height: 40px;
-            }
-
-            .bg-bubbles li:nth-child(4) {
                 width: 50px;
                 height: 50px;
             }
 
-            .bg-bubbles li:nth-child(7) {
+            .bg-bubbles li:nth-child(4) {
                 width: 60px;
                 height: 60px;
             }
 
-            /* Prevent horizontal scrolling */
-            html,
-            body {
-                overflow-x: hidden;
-                width: 100%;
+            .bg-bubbles li:nth-child(7) {
+                width: 70px;
+                height: 70px;
             }
+            
+            /* Adjust text sizes for mobile */
+            h2 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 14px;
+            }
+            
+            /* Better touch targets */
+            input, .btn {
+                padding: 14px 14px 14px 40px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .input-icon {
+                left: 12px;
+            }
+            
+            .toggle-password {
+                right: 12px;
+            }
+            
+            .logo-container {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .logo-container img {
+                width: 50px;
+                height: 50px;
+            }
+        }
 
-            /* Better input field styling for mobile */
-            input {
-                font-size: 16px;
-                /* Prevents zoom on iOS */
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            body {
+                padding: 15px;
             }
+            
+            .container {
+                width: calc(100% - 30px); /* Account for reduced body padding */
+                border-radius: 15px;
+            }
+            
+            .form-section,
+            .image-section {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+            
+            input, .btn {
+                padding: 12px 12px 12px 38px;
+            }
+            
+            .input-icon {
+                left: 10px;
+            }
+            
+            .toggle-password {
+                right: 10px;
+            }
+            
+            .logo-container {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 15px;
+            }
+        }
+
+        /* Prevent horizontal scrolling on all devices */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
         }
     </style>
 </head>
@@ -586,6 +659,7 @@
                 <div class="input-group">
                     <i class="fas fa-lock input-icon"></i>
                     <input type="password" id="signinPassword" placeholder="Password" required>
+                    <i class="fas fa-eye toggle-password" id="toggleSignInPassword"></i>
                 </div>
                 <button type="submit" class="btn">Login Now</button>
                 <p class="switch">Don't have an account? <span id="showSignUp">Sign Up</span></p>
@@ -611,10 +685,12 @@
                 <div class="input-group">
                     <i class="fas fa-lock input-icon"></i>
                     <input type="password" id="signupPassword" placeholder="Create Password" required>
+                    <i class="fas fa-eye toggle-password" id="toggleSignUpPassword"></i>
                 </div>
                 <div class="input-group">
                     <i class="fas fa-lock input-icon"></i>
                     <input type="password" id="signupRePassword" placeholder="Re-enter Password" required>
+                    <i class="fas fa-eye toggle-password" id="toggleSignUpRePassword"></i>
                 </div>
                 <button type="submit" class="btn">Register</button>
                 <p class="switch">Already have an account? <span id="showSignIn">Sign In</span></p>
@@ -625,10 +701,8 @@
             <div class="logo-container">
                 <img src="logo.png" alt="Logo">
             </div>
-            <h2>XENTHIS</h2>
-            <div class="font1">
-                <p><b>Define || Design || Deploy</b></p>
-            </div>
+            <h2>Xenthis</h2>
+            <p>Define || Design || Deploy</p>
         </div>
     </div>
 
@@ -640,6 +714,39 @@
         const signupError = document.getElementById("signupError");
         const signinError = document.getElementById("signinError");
         const mainContainer = document.getElementById("mainContainer");
+        
+        // Password visibility toggle elements
+        const toggleSignInPassword = document.getElementById("toggleSignInPassword");
+        const toggleSignUpPassword = document.getElementById("toggleSignUpPassword");
+        const toggleSignUpRePassword = document.getElementById("toggleSignUpRePassword");
+        
+        // Toggle password visibility
+        function togglePassword(inputId, toggleIcon) {
+            const passwordInput = document.getElementById(inputId);
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+        
+        // Add event listeners for password toggles
+        toggleSignInPassword.addEventListener('click', () => {
+            togglePassword('signinPassword', toggleSignInPassword);
+        });
+        
+        toggleSignUpPassword.addEventListener('click', () => {
+            togglePassword('signupPassword', toggleSignUpPassword);
+        });
+        
+        toggleSignUpRePassword.addEventListener('click', () => {
+            togglePassword('signupRePassword', toggleSignUpRePassword);
+        });
 
         // Toggle forms
         showSignUp.addEventListener("click", () => {
@@ -671,7 +778,6 @@
         function validatePassword(pass) {
             return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/.test(pass);
         }
-
 
         // Handle Sign Up
         signUpForm.addEventListener("submit", (e) => {
